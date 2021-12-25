@@ -3,36 +3,56 @@ import 'dart:io';
 
 import 'dart:math';
 
+import 'package:guess_number/game.dart';
 
 void main() {
   var r = Random();
   var answer = r.nextInt(100);
   var count = 0;
+  var game = Game();
   print("╔═════════════════════════════════════════ ");
   print("║                GUESS THE NUMBER    ");
+
+
   for (int i = 0;;) {
-    print("║─────────────────────────────────────────");
-  stdout.write('║ Guess number between 1 and 100:');
-    var input = stdin.readLineSync();
-    var guess = int.tryParse(input!);
-    if (guess != null) {
-      if (guess == answer) {
-        count++;
-        print("║ ➜ $guess is correct ❤" + ", Total guesses: $count");
+    if (count == 1) {
+      stdout.write('play again (Y/N):');
+      var ans = stdin.readLineSync();
+      String Y = 'Y';
+      String y = 'y';
+      String N = 'N';
+      String n = 'n';
+      if (ans == Y || ans == y) {
+        count--;
+        continue;
+      }
+      else if(ans == N || ans == n){
         break;
-      }
-      else if (guess != answer) {
-        if (guess < answer) {
-          print("║ ➜ $guess is TOO LOW! ▼");
+    }
+    }
+      for (int i = 0;;) {
+        print("║─────────────────────────────────────────");
+        stdout.write('║ Guess number between 1 and 100:');
+        var input = stdin.readLineSync();
+        var guess = int.tryParse(input!);
+        if (guess != null) {
+          var result = game.DoGuess(guess);
+          var Counting = game.DoCount(guess);
+          if (result == 0) {
+            print("║ ➜ $guess is correct ❤" + ", Total guesses: $Counting");
+            count++;
+            break;
+          } else if (guess != 0) {
+            if (result == -1) {
+              print("║ ➜ $guess is TOO LOW! ▼");
+            } else if (result == 1) {
+              print("║ ➜ $guess is TOO HIGH! ▲");
+            }
+          }
         }
-        else if (guess > answer) {
-          print("║ ➜ $guess is TOO HIGH! ▲");
-        }
-        count++;
       }
+      print("║─────────────────────────────────────────");
+      print("║                 THE END             ");
+      print("╚═════════════════════════════════════════");
     }
   }
-  print("║─────────────────────────────────────────");
-  print("║                 THE END             ");
-  print("╚═════════════════════════════════════════");
-}
