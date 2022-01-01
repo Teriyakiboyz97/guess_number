@@ -15,6 +15,8 @@ void main() {
 
 
   for (int i = 0;;) {
+    stdout.write('║ Enter a Maximum Number To Random:');
+    var input = stdin.readLineSync();
     if (count == 1) {
       stdout.write('play again (Y/N):');
       var ans = stdin.readLineSync();
